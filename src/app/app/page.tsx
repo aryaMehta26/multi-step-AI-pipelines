@@ -48,6 +48,7 @@ export default function AppDashboardPage() {
               href="https://github.com/rocketride-org/rocketride-server"
               target="_blank"
               rel="noreferrer"
+              suppressHydrationWarning
             >
               RocketRide
             </a>{" "}
