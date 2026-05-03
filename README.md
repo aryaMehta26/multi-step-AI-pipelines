@@ -82,6 +82,8 @@ Then open **[http://127.0.0.1:3000](http://127.0.0.1:3000)** and **[http://127.0
 | `npm run lint` | ESLint |
 
 ---
+<img width="1470" height="833" alt="image" src="https://github.com/user-attachments/assets/e016c0bd-3e38-42b4-929d-c447db7705b7" />
+
 
 ## RocketRide alignment
 
