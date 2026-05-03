@@ -1,3 +1,4 @@
+import Link from "next/link";
 import { ArrowLeft, GitBranch, Sparkles } from "lucide-react";
 
 import { PipelineRunner } from "@/components/pipeline-runner";
@@ -15,10 +16,10 @@ export default function AppDashboardPage() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Button asChild variant="ghost" size="sm">
-              <a href="/" suppressHydrationWarning>
+              <Link href="/" prefetch={false} suppressHydrationWarning>
                 <ArrowLeft className="h-4 w-4" />
                 Back
-              </a>
+              </Link>
             </Button>
             <span className="text-white/40">|</span>
             <div className="flex items-center gap-2">
