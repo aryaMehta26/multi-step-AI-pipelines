@@ -11,6 +11,7 @@ export default function AppDashboardPage() {
     <div
       className="flex min-h-screen flex-col"
       style={{ backgroundColor: "#070a10", color: "#f8fafc" }}
+      suppressHydrationWarning
     >
       <header className="border-b border-white/10 px-6 py-4">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">

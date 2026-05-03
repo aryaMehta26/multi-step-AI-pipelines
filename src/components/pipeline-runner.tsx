@@ -93,7 +93,10 @@ export function PipelineRunner() {
   };
 
   return (
-    <div className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]">
+    <div
+      className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
+      suppressHydrationWarning
+    >
       <div className="flex flex-col gap-4">
         <Card className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2">

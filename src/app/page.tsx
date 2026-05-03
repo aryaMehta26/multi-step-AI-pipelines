@@ -13,6 +13,7 @@ export default function Home() {
         color: "#f8fafc",
         minHeight: "100vh",
       }}
+      suppressHydrationWarning
     >
       <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
         <div className="flex items-center gap-3">
