@@ -19,7 +19,7 @@
 Recruiters skim repos in seconds. This project is a **fast-to-parse story**:
 
 1. **Landing** (`/`) &mdash; product-shaped UI, clear value prop, obvious CTAs.
-2. **Dashboard** (`/app`) &mdash; placeholder workspace where pipeline runs, traces, and history will land.
+2. **Dashboard** (`/app`) &mdash; **runs a real multi-step pipeline** (TypeScript orchestrator) with step traces + markdown artifact + recent run history (in-memory per server).
 
 The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeScript**, **Tailwind v4**, **lucide** icons &mdash; so the focus stays on **workflow UX**, not novelty framework churn.
 
@@ -30,7 +30,14 @@ The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeS
 | Surface | Purpose |
 |--------|---------|
 | **`/`** | Dark, readable marketing shell + links to GitHub / inner app |
-| **`/app`** | Dashboard stub aligned with future RocketRide engine hooks (`localhost:5565` in extension defaults) |
+| **`/app`** | Live runner UI wired to **`POST /api/pipeline/run`** (built-in orchestrator; swap adapter for RocketRide engine later) |
+
+### HTTP API (built-in)
+
+| Method | Path | Purpose |
+|--------|------|---------|
+| `POST` | `/api/pipeline/run` | Body: `{ "goal": "…" }` — executes [`runGoalPipeline`](src/lib/orchestrator/runGoalPipeline.ts), returns steps + artifact |
+| `GET` | `/api/pipeline/runs` | Last runs (preview + timings); stored in memory for demos |
 
 ---
 
@@ -60,10 +67,10 @@ Then open **[http://127.0.0.1:3000](http://127.0.0.1:3000)** and **[http://127.0
 
 RocketRide pitches **visual `.pipe` pipelines**, **live traces**, and a **fast runtime** inside VS Code &mdash; see their marketplace README / docs for settings like `rocketride.hostUrl` (often `http://localhost:5565`).
 
-This repo is the **thin web shell** where you would:
+This repo ships **both**:
 
-- Trigger runs against that engine (or mock responses first).
-- Render **step-by-step outputs**, **run history**, and later **trace widgets**.
+- **Our orchestrator** — deterministic pipeline steps you own (`src/lib/orchestrator/`).
+- **A clean insertion point** — replace the executor behind `/api/pipeline/run` with HTTP/SDK calls to RocketRide when you wire `localhost:5565` (or hosted).
 
 *(Integration PRs welcome once the HTTP surface you need is pinned.)*
 
@@ -78,7 +85,8 @@ This repo is the **thin web shell** where you would:
 
 ## Roadmap
 
-- [ ] API route: `POST /api/runs` &rarr; proxy to RocketRide engine or mock pipeline
+- [x] API route: `POST /api/pipeline/run` + step traces + artifact (built-in orchestrator)
+- [ ] Adapter: proxy same UI to RocketRide engine / `.pipe` execution
 - [ ] Run history persistence (SQLite or KV) for believable demos
 - [ ] Step trace panel (tokens, timings) when API allows
 - [ ] One-click deploy story (Vercel) + env template
