@@ -115,12 +115,14 @@ export function PipelineRunner() {
             onChange={(e) => setGoal(e.target.value)}
             className="w-full resize-y rounded-xl border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40"
             placeholder="Describe what you want the pipeline to plan…"
+            suppressHydrationWarning
           />
           <Button
             type="button"
             onClick={() => void runPipeline()}
             disabled={loading}
             className="self-start"
+            suppressHydrationWarning
           >
             {loading ? (
               <>
@@ -149,10 +151,17 @@ export function PipelineRunner() {
                   className="accent-sky-400"
                   checked={includeDemo}
                   onChange={(e) => setIncludeDemo(e.target.checked)}
+                  suppressHydrationWarning
                 />
                 Include seeded demo rows
               </label>
-              <Button type="button" variant="ghost" size="sm" onClick={() => void refreshHistory()}>
+              <Button
+                type="button"
+                variant="ghost"
+                size="sm"
+                suppressHydrationWarning
+                onClick={() => void refreshHistory()}
+              >
                 Refresh
               </Button>
             </div>
@@ -173,6 +182,7 @@ export function PipelineRunner() {
                     <button
                       type="button"
                       className="w-full rounded-lg border border-violet-500/25 bg-violet-500/10 px-3 py-2 text-left transition hover:bg-violet-500/15"
+                      suppressHydrationWarning
                       onClick={() => void loadSyntheticDetail(r.id)}
                     >
                       <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-white/45">
