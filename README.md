@@ -37,7 +37,25 @@ The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeS
 | Method | Path | Purpose |
 |--------|------|---------|
 | `POST` | `/api/pipeline/run` | Body: `{ "goal": "…" }` — executes [`runGoalPipeline`](src/lib/orchestrator/runGoalPipeline.ts), returns steps + artifact |
-| `GET` | `/api/pipeline/runs` | Last runs (preview + timings); stored in memory for demos |
+| `GET` | `/api/pipeline/runs` | Live runs from memory; add **`?demo=1`** to prepend **seeded** rows (`syn-1` …) built from fixed goals via the same orchestrator |
+| `GET` | `/api/pipeline/demo/[id]` | Full trace + artifact for a seeded id (e.g. `syn-1`) |
+
+### Docker (Node production image)
+
+Uses Next [**standalone**](https://nextjs.org/docs/app/building-your-application/deploying#docker-image) output (`next.config.ts`).
+
+```bash
+docker compose up --build
+# app → http://localhost:3000
+```
+
+### GitHub Actions
+
+Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs **`npm ci` → `npm run lint` → `npm run build`** on pushes and PRs to `main`.
+
+### Seeded (“synthetic”) data — does it work?
+
+**Yes, for demos.** The checklist rows are **not** random junk: they run the **same TypeScript pipeline** as live traffic on **fixed goals**, so traces stay reproducible in fresh Docker/GitHub environments. Toggle **“Include seeded demo rows”** on `/app` or call `GET /api/pipeline/runs?demo=1`. Production persistence would replace in-memory history — seeds remain optional.
 
 ---
 
@@ -86,6 +104,9 @@ This repo ships **both**:
 ## Roadmap
 
 - [x] API route: `POST /api/pipeline/run` + step traces + artifact (built-in orchestrator)
+- [x] Docker image + `docker compose` for portable demos
+- [x] GitHub Actions CI (`lint` + `build`)
+- [x] Optional seeded runs (`?demo=1`) for empty environments
 - [ ] Adapter: proxy same UI to RocketRide engine / `.pipe` execution
 - [ ] Run history persistence (SQLite or KV) for believable demos
 - [ ] Step trace panel (tokens, timings) when API allows
