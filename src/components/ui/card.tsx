@@ -13,6 +13,7 @@ export function Card({
         className,
       )}
       {...props}
+      suppressHydrationWarning
     />
   );
 }

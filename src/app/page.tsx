@@ -15,7 +15,10 @@ export default function Home() {
       }}
       suppressHydrationWarning
     >
-      <header className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6">
+      <header
+        className="mx-auto flex w-full max-w-6xl items-center justify-between px-6 py-6"
+        suppressHydrationWarning
+      >
         <div className="flex items-center gap-3">
           <div className="grid h-10 w-10 place-items-center rounded-xl border border-white/10 bg-white/5">
             <Sparkles className="h-5 w-5" />
@@ -35,7 +38,10 @@ export default function Home() {
         </div>
       </header>
 
-      <main className="mx-auto w-full max-w-6xl px-6 pb-16 pt-10">
+      <main
+        className="mx-auto w-full max-w-6xl px-6 pb-16 pt-10"
+        suppressHydrationWarning
+      >
         <div className="grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-start">
           <section className="space-y-6">
             <Badge variant="outline">Built for RocketRide evaluation</Badge>

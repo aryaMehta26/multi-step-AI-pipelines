@@ -13,7 +13,7 @@ export default function AppDashboardPage() {
       style={{ backgroundColor: "#070a10", color: "#f8fafc" }}
       suppressHydrationWarning
     >
-      <header className="border-b border-white/10 px-6 py-4">
+      <header className="border-b border-white/10 px-6 py-4" suppressHydrationWarning>
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <Button asChild variant="ghost" size="sm">
@@ -32,8 +32,11 @@ export default function AppDashboardPage() {
         </div>
       </header>
 
-      <main className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10">
-        <section className="space-y-2">
+      <main
+        className="mx-auto flex w-full max-w-6xl flex-1 flex-col gap-8 px-6 py-10"
+        suppressHydrationWarning
+      >
+        <section className="space-y-2" suppressHydrationWarning>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
             Run your own multi-step pipeline
           </h1>
