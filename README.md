@@ -94,6 +94,17 @@ This repo ships **both**:
 - **Our orchestrator** — deterministic pipeline steps you own (`src/lib/orchestrator/`).
 - **A clean insertion point** — replace the executor behind `/api/pipeline/run` with HTTP/SDK calls to RocketRide when you wire `localhost:5565` (or hosted).
 
+### Included RocketRide pipeline (`.pipe`)
+
+This repo includes a real RocketRide pipeline file:
+
+- `pipelines/goal-planning-agent.pipe`
+
+Open it in VS Code with the RocketRide extension (it will appear in the visual canvas builder), then hit **Play** to run. See:
+
+- `docs/ROCKETRIDE.md` (step-by-step)
+- `docs/SCREENSHOTS.md` (what to capture for submissions)
+
 *(Integration PRs welcome once the HTTP surface you need is pinned.)*
 
 ---

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { ArrowLeft, GitBranch, Sparkles } from "lucide-react";
 
+import { RocketrideEngineStatus } from "@/components/rocketride-engine-status";
 import { PipelineRunner } from "@/components/pipeline-runner";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -28,7 +29,10 @@ export default function AppDashboardPage() {
               <span className="font-semibold tracking-tight">Pipeline workspace</span>
             </div>
           </div>
-          <Badge variant="outline">Live · built-in orchestrator</Badge>
+          <div className="flex flex-wrap items-center justify-end gap-2">
+            <RocketrideEngineStatus />
+            <Badge variant="outline">Live · Next.js orchestrator</Badge>
+          </div>
         </div>
       </header>
 
