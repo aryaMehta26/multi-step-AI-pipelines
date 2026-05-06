@@ -1,4 +1,4 @@
-# Running this project **with** RocketRide (VS Code / Cursor)
+# Running this project **with** RocketRide (VS Code)
 
 This repo is intentionally **two-sided**:
 
@@ -7,12 +7,12 @@ This repo is intentionally **two-sided**:
 
 ## Prerequisites
 
-- Install the **RocketRide** extension from the VS Code Marketplace (works in VS Code; Cursor users can follow the extension’s Cursor integration settings if enabled).
+- Install the **RocketRide** extension from the VS Code Marketplace.
 - Start or connect the RocketRide **engine** (extension default is typically `http://127.0.0.1:5565` — see `rocketride.hostUrl` in extension settings).
 
 ## Open the bundled pipeline
 
-1. Clone this repo and open the folder in VS Code/Cursor.
+1. Clone this repo and open the folder in VS Code.
 2. In the RocketRide activity bar, **open**  
    `pipelines/goal-planning-agent.pipe`  
    It contains **multiple nodes**: `chat` → `agent_rocketride` → `llm_openai` + `memory_internal` → `response_answers`.

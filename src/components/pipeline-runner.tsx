@@ -4,6 +4,7 @@ import { useCallback, useEffect, useState } from "react";
 import { Loader2, PlayCircle } from "lucide-react";
 
 import type { PipelineRunResponse } from "@/lib/orchestrator/types";
+import { PipelineCanvas } from "@/components/pipeline-canvas";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
@@ -93,11 +94,14 @@ export function PipelineRunner() {
   };
 
   return (
-    <div
-      className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
-      suppressHydrationWarning
-    >
-      <div className="flex flex-col gap-4">
+    <div className="flex flex-col gap-8" suppressHydrationWarning>
+      <PipelineCanvas />
+
+      <div
+        className="grid gap-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)]"
+        suppressHydrationWarning
+      >
+        <div className="flex flex-col gap-4">
         <Card className="flex flex-col gap-3">
           <div className="flex flex-wrap items-center gap-2">
             <Badge>Built-in orchestrator</Badge>
@@ -145,7 +149,7 @@ export function PipelineRunner() {
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
             <span className="text-sm font-semibold text-white">Recent runs</span>
             <div className="flex flex-wrap items-center gap-3">
-              <label className="flex cursor-pointer items-center gap-2 text-xs text-white/65">
+              <label className="flex items-center gap-2 text-xs text-white/65">
                 <input
                   type="checkbox"
                   className="accent-sky-400"
@@ -263,6 +267,7 @@ export function PipelineRunner() {
           )}
         </Card>
       </div>
+    </div>
     </div>
   );
 }
