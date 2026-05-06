@@ -34,6 +34,12 @@ The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeS
 | **`/`** | Dark, readable marketing shell + links to GitHub / inner app |
 | **`/app`** | Live runner UI wired to **`POST /api/pipeline/run`** (built-in orchestrator; swap adapter for RocketRide engine later) |
 
+### Pipeline canvas (from `.pipe`)
+
+The `/app` dashboard now includes a **visual pipeline canvas** (nodes + wires) rendered from the included RocketRide `.pipe` definition. Add your screenshot here:
+
+- `docs/screenshots/01-canvas-ui.png` — the pipeline canvas inside `/app`
+
 ### HTTP API (built-in)
 
 | Method | Path | Purpose |
