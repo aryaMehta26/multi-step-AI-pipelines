@@ -15,13 +15,26 @@
 ---
 <img width="1470" height="832" alt="image" src="https://github.com/user-attachments/assets/8815bad8-36ff-4f02-95ff-03bf1d1382dd" />
 
+## Impact at a glance
+
+- Rebuilt the demo from a basic chat -> agent -> response toy into a **12-node release-readiness pipeline** that mirrors how RocketRide pitches `.pipe` graphs.
+- Both the **`.pipe` canvas** and the **backend** follow the same shape:
+  - **Chat input** -> **Intake agent**
+  - Fan-out to **GitHub repo tool**, **Docker deploy check**, **Docs/context database**, **Run memory**
+  - **Risk analysis agent** -> **Execution planner agent**
+  - **LLM draft node** -> **Readiness score** -> **Markdown report** -> **Email/Slack handoff mock**
+- `POST /api/pipeline/run` actually walks those nodes, so each row in the live **step trace** maps to a real node id and produces a deterministic 0-100 readiness score plus a markdown release report.
+- Runnable end-to-end: **Next.js 16 + TypeScript + Tailwind**, **Dockerfile + docker-compose**, **GitHub Actions CI**, and seeded demo runs so reviewers can run it in a fresh environment with zero external keys.
+- Same backend graph can swap to **RocketRide engine / SDK** later via a single HTTP boundary, without changing the UI.
+
+---
 
 ## Why this exists
 
 Recruiters skim repos in seconds. This project is a **fast-to-parse story**:
 
 1. **Landing** (`/`) &mdash; product-shaped UI, clear value prop, obvious CTAs.
-2. **Dashboard** (`/app`) &mdash; **runs a real multi-node release-readiness pipeline** (TypeScript backend orchestrator) with step traces + markdown report + recent run history (in-memory per server).
+2. **Dashboard** (`/app`) &mdash; **runs a real 12-node release-readiness backend pipeline** with node-by-node step traces, a markdown release report, and recent run history (in-memory per server).
 
 The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeScript**, **Tailwind v4**, **lucide** icons &mdash; so the focus stays on **workflow UX**, not novelty framework churn.
 

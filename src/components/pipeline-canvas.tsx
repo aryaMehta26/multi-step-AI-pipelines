@@ -61,7 +61,7 @@ export function PipelineCanvas() {
         </div>
       </div>
 
-      <div className="relative overflow-x-auto">
+      <div className="relative overflow-x-auto" suppressHydrationWarning>
         <div
           className="relative mx-auto"
           style={{ width, height, minWidth: "min(100%, 920px)" }}
