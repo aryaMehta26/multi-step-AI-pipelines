@@ -1,76 +1,196 @@
 {
   "components": [
     {
-      "id": "chat_1",
+      "id": "chat_release_goal_1",
       "provider": "chat",
       "config": { "hideForm": true, "mode": "Source", "parameters": {}, "type": "chat" },
       "ui": {
-        "position": { "x": 40, "y": 180 },
-        "measured": { "width": 150, "height": 66 },
+        "position": { "x": 40, "y": 220 },
+        "measured": { "width": 170, "height": 70 },
         "nodeType": "default",
         "formDataValid": true
       }
     },
     {
-      "id": "agent_rocketride_1",
+      "id": "agent_intake_1",
       "provider": "agent_rocketride",
       "config": {
         "instructions": [
-          "You help software interns plan delivery. Given a goal, respond with: (1) three crisp milestones, (2) risks, (3) one short markdown artifact they can paste into a PR or doc."
+          "Classify the release goal, identify the target surface area, and decide which tools and context nodes should run before planning."
         ],
-        "max_waves": 10,
+        "max_waves": 8,
         "parameters": {}
       },
-      "input": [{ "lane": "questions", "from": "chat_1" }],
+      "input": [{ "lane": "goal", "from": "chat_release_goal_1" }],
       "ui": {
-        "position": { "x": 260, "y": 180 },
-        "measured": { "width": 150, "height": 86 },
+        "position": { "x": 270, "y": 220 },
+        "measured": { "width": 180, "height": 86 },
         "nodeType": "default",
         "formDataValid": true
       }
     },
     {
-      "id": "llm_openai_1",
+      "id": "tool_github_repo_1",
+      "provider": "tool_github",
+      "config": {
+        "checks": ["open_prs", "ci_status", "changed_files", "release_notes"],
+        "parameters": {}
+      },
+      "input": [{ "lane": "release_scope", "from": "agent_intake_1" }],
+      "ui": {
+        "position": { "x": 520, "y": 40 },
+        "measured": { "width": 175, "height": 74 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "tool_docker_deploy_1",
+      "provider": "tool_docker",
+      "config": {
+        "checks": ["dockerfile", "compose", "healthcheck", "node_runtime"],
+        "parameters": {}
+      },
+      "input": [{ "lane": "release_scope", "from": "agent_intake_1" }],
+      "ui": {
+        "position": { "x": 520, "y": 160 },
+        "measured": { "width": 175, "height": 74 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "database_docs_context_1",
+      "provider": "database_context",
+      "config": {
+        "collections": ["readme", "rocketride_docs", "submission_notes"],
+        "top_k": 4,
+        "parameters": {}
+      },
+      "input": [{ "lane": "release_scope", "from": "agent_intake_1" }],
+      "ui": {
+        "position": { "x": 520, "y": 285 },
+        "measured": { "width": 175, "height": 82 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "memory_release_1",
+      "provider": "memory_internal",
+      "config": {
+        "type": "memory_internal",
+        "purpose": "prior release decisions and reviewer feedback"
+      },
+      "control": [{ "classType": "memory", "from": "agent_intake_1" }],
+      "ui": {
+        "position": { "x": 520, "y": 415 },
+        "measured": { "width": 175, "height": 74 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "agent_risk_analysis_1",
+      "provider": "agent_rocketride",
+      "config": {
+        "instructions": [
+          "Combine GitHub, Docker, docs, and memory signals into concrete release risks and blockers."
+        ],
+        "max_waves": 8,
+        "parameters": {}
+      },
+      "input": [
+        { "lane": "repo_signals", "from": "tool_github_repo_1" },
+        { "lane": "deploy_signals", "from": "tool_docker_deploy_1" },
+        { "lane": "docs_context", "from": "database_docs_context_1" },
+        { "lane": "release_memory", "from": "memory_release_1" }
+      ],
+      "ui": {
+        "position": { "x": 760, "y": 220 },
+        "measured": { "width": 190, "height": 90 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "agent_execution_plan_1",
+      "provider": "agent_rocketride",
+      "config": {
+        "instructions": [
+          "Turn risks into a staged delivery plan, testing plan, and launch checklist."
+        ],
+        "max_waves": 6,
+        "parameters": {}
+      },
+      "input": [{ "lane": "risk_report", "from": "agent_risk_analysis_1" }],
+      "ui": {
+        "position": { "x": 1010, "y": 220 },
+        "measured": { "width": 190, "height": 88 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "llm_openai_draft_1",
       "provider": "llm_openai",
       "config": {
         "profile": "openai-4o",
         "openai-4o": { "apikey": "${ROCKETRIDE_OPENAI_KEY}" },
         "parameters": {}
       },
-      "control": [{ "classType": "llm", "from": "agent_rocketride_1" }],
+      "control": [{ "classType": "llm", "from": "agent_execution_plan_1" }],
       "ui": {
-        "position": { "x": 480, "y": 280 },
-        "measured": { "width": 150, "height": 66 },
+        "position": { "x": 1260, "y": 80 },
+        "measured": { "width": 175, "height": 74 },
         "nodeType": "default",
         "formDataValid": true
       }
     },
     {
-      "id": "memory_internal_1",
-      "provider": "memory_internal",
-      "config": { "type": "memory_internal" },
-      "control": [{ "classType": "memory", "from": "agent_rocketride_1" }],
+      "id": "score_release_readiness_1",
+      "provider": "score_readiness",
+      "config": {
+        "weights": { "repo": 30, "deploy": 25, "docs": 20, "risk": 25 },
+        "parameters": {}
+      },
+      "input": [
+        { "lane": "plan", "from": "agent_execution_plan_1" },
+        { "lane": "draft", "from": "llm_openai_draft_1" }
+      ],
       "ui": {
-        "position": { "x": 480, "y": 80 },
-        "measured": { "width": 150, "height": 66 },
+        "position": { "x": 1260, "y": 240 },
+        "measured": { "width": 180, "height": 78 },
         "nodeType": "default",
         "formDataValid": true
       }
     },
     {
-      "id": "response_answers_1",
+      "id": "response_release_report_1",
       "provider": "response_answers",
-      "config": { "laneName": "answers" },
-      "input": [{ "lane": "answers", "from": "agent_rocketride_1" }],
+      "config": { "laneName": "release_report", "format": "markdown" },
+      "input": [{ "lane": "readiness_score", "from": "score_release_readiness_1" }],
       "ui": {
-        "position": { "x": 720, "y": 180 },
-        "measured": { "width": 150, "height": 66 },
+        "position": { "x": 1500, "y": 220 },
+        "measured": { "width": 185, "height": 78 },
+        "nodeType": "default",
+        "formDataValid": true
+      }
+    },
+    {
+      "id": "notify_handoff_1",
+      "provider": "notify_handoff",
+      "config": { "channels": ["email", "slack"], "mode": "mock", "parameters": {} },
+      "input": [{ "lane": "release_report", "from": "response_release_report_1" }],
+      "ui": {
+        "position": { "x": 1740, "y": 220 },
+        "measured": { "width": 180, "height": 74 },
         "nodeType": "default",
         "formDataValid": true
       }
     }
   ],
   "project_id": "c2d4e8f0-1111-4222-8333-7890abcdef01",
-  "viewport": { "x": 0, "y": 0, "zoom": 1 },
-  "version": 1
+  "viewport": { "x": 0, "y": 0, "zoom": 0.74 },
+  "version": 2
 }

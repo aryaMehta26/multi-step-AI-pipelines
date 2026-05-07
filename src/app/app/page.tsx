@@ -42,12 +42,13 @@ export default function AppDashboardPage() {
       >
         <section className="space-y-2" suppressHydrationWarning>
           <h1 className="text-2xl font-semibold tracking-tight text-white sm:text-3xl">
-            Run your own multi-step pipeline
+            Run an AI release-readiness pipeline
           </h1>
           <p className="max-w-3xl text-sm text-white/70 sm:text-base">
             This is <strong className="text-white/90">our orchestration</strong>: a TypeScript
-            pipeline that ingests your goal, extracts signals, drafts a plan, and emits a markdown
-            artifact. It runs on the server via{" "}
+            backend pipeline that ingests a release goal, fans out to GitHub/Docker/docs/memory
+            nodes, runs risk and planning agents, scores readiness, and emits a markdown handoff.
+            It runs on the server via{" "}
             <code className="rounded bg-white/10 px-1 text-xs">POST /api/pipeline/run</code>.
             Later you can swap the executor for{" "}
             <a
@@ -75,9 +76,9 @@ export default function AppDashboardPage() {
             <div className="min-w-0 flex-1 space-y-1">
               <div className="font-semibold text-white">Why this counts as “ours”</div>
               <p className="text-sm text-white/65">
-                The step graph, artifact format, HTTP surface, and UI are authored here — not a
-                generic ChatGPT wrapper. RocketRide integration becomes a backend adapter when you
-                are ready.
+                The step graph, adapters, risk model, readiness score, artifact format, HTTP
+                surface, and UI are authored here — not a generic ChatGPT wrapper. RocketRide
+                integration becomes the execution engine for the same backend graph when ready.
               </p>
             </div>
           </div>

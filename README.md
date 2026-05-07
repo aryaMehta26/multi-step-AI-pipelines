@@ -1,8 +1,8 @@
 <div align="center">
 
-# multi-step AI pipelines
+# multi-step AI release pipelines
 
-**A small, sharp Next.js demo for multi-step AI workflows &mdash; built with an eye toward [RocketRide](https://github.com/rocketride-org/rocketride-server)-style pipelines.**
+**A full-stack Next.js demo for multi-node AI release-readiness workflows &mdash; built with an eye toward [RocketRide](https://github.com/rocketride-org/rocketride-server)-style pipelines.**
 
 [![Next.js](https://img.shields.io/badge/Next.js-16-black?logo=next.js&logoColor=white)](https://nextjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
@@ -21,7 +21,7 @@
 Recruiters skim repos in seconds. This project is a **fast-to-parse story**:
 
 1. **Landing** (`/`) &mdash; product-shaped UI, clear value prop, obvious CTAs.
-2. **Dashboard** (`/app`) &mdash; **runs a real multi-step pipeline** (TypeScript orchestrator) with step traces + markdown artifact + recent run history (in-memory per server).
+2. **Dashboard** (`/app`) &mdash; **runs a real multi-node release-readiness pipeline** (TypeScript backend orchestrator) with step traces + markdown report + recent run history (in-memory per server).
 
 The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeScript**, **Tailwind v4**, **lucide** icons &mdash; so the focus stays on **workflow UX**, not novelty framework churn.
 
@@ -32,19 +32,19 @@ The stack is intentionally boring-in-a-good-way: **Next.js App Router**, **TypeS
 | Surface | Purpose |
 |--------|---------|
 | **`/`** | Dark, readable marketing shell + links to GitHub / inner app |
-| **`/app`** | Live runner UI wired to **`POST /api/pipeline/run`** (built-in orchestrator; swap adapter for RocketRide engine later) |
+| **`/app`** | Live runner UI wired to **`POST /api/pipeline/run`** (built-in backend pipeline; swap adapter for RocketRide engine later) |
 
 ### Pipeline canvas (from `.pipe`)
 
-The `/app` dashboard now includes a **visual pipeline canvas** (nodes + wires) rendered from the included RocketRide `.pipe` definition. Add your screenshot here:
+The `/app` dashboard includes a **12-node visual pipeline canvas** (nodes + wires) rendered from the included RocketRide `.pipe` definition. It shows multiple node types: chat input, intake agent, GitHub tool, Docker tool, docs/context database, memory, risk agent, planning agent, LLM draft, readiness score, markdown report, and handoff notification.
 
-- `docs/screenshots/01-canvas-ui.png` — the pipeline canvas inside `/app`
+- `docs/screenshots/01-canvas-ui.png` — expanded release-readiness pipeline canvas inside `/app`
 
 ### HTTP API (built-in)
 
 | Method | Path | Purpose |
 |--------|------|---------|
-| `POST` | `/api/pipeline/run` | Body: `{ "goal": "…" }` — executes [`runGoalPipeline`](src/lib/orchestrator/runGoalPipeline.ts), returns steps + artifact |
+| `POST` | `/api/pipeline/run` | Body: `{ "goal": "…" }` — executes [`runGoalPipeline`](src/lib/orchestrator/runGoalPipeline.ts), returns node-level steps + readiness report |
 | `GET` | `/api/pipeline/runs` | Live runs from memory; add **`?demo=1`** to prepend **seeded** rows (`syn-1` …) built from fixed goals via the same orchestrator |
 | `GET` | `/api/pipeline/demo/[id]` | Full trace + artifact for a seeded id (e.g. `syn-1`) |
 
@@ -63,7 +63,7 @@ Workflow [`.github/workflows/ci.yml`](.github/workflows/ci.yml) runs **`npm ci` 
 
 ### Seeded (“synthetic”) data — does it work?
 
-**Yes, for demos.** The checklist rows are **not** random junk: they run the **same TypeScript pipeline** as live traffic on **fixed goals**, so traces stay reproducible in fresh Docker/GitHub environments. Toggle **“Include seeded demo rows”** on `/app` or call `GET /api/pipeline/runs?demo=1`. Production persistence would replace in-memory history — seeds remain optional.
+**Yes, for demos.** The checklist rows are **not** random junk: they run the **same multi-node TypeScript backend pipeline** as live traffic on **fixed release goals**, so traces stay reproducible in fresh Docker/GitHub environments. Toggle **“Include seeded demo rows”** on `/app` or call `GET /api/pipeline/runs?demo=1`. Production persistence would replace in-memory history — seeds remain optional.
 
 ---
 
@@ -97,7 +97,7 @@ RocketRide pitches **visual `.pipe` pipelines**, **live traces**, and a **fast r
 
 This repo ships **both**:
 
-- **Our orchestrator** — deterministic pipeline steps you own (`src/lib/orchestrator/`).
+- **Our orchestrator** — deterministic GitHub/Docker/docs/memory/risk/scoring pipeline steps you own (`src/lib/orchestrator/`).
 - **A clean insertion point** — replace the executor behind `/api/pipeline/run` with HTTP/SDK calls to RocketRide when you wire `localhost:5565` (or hosted).
 
 ### Included RocketRide pipeline (`.pipe`)
@@ -106,7 +106,7 @@ This repo includes a real RocketRide pipeline file:
 
 - `pipelines/goal-planning-agent.pipe`
 
-Open it in VS Code with the RocketRide extension (it will appear in the visual canvas builder), then hit **Play** to run. See:
+Open it in VS Code with the RocketRide extension (it will appear in the visual canvas builder as the larger release-readiness graph), then hit **Play** to run. See:
 
 - `docs/ROCKETRIDE.md` (step-by-step)
 - `docs/SCREENSHOTS.md` (what to capture for submissions)
@@ -125,6 +125,7 @@ Open it in VS Code with the RocketRide extension (it will appear in the visual c
 ## Roadmap
 
 - [x] API route: `POST /api/pipeline/run` + step traces + artifact (built-in orchestrator)
+- [x] 12-node pipeline canvas with agents, tools, database/context, memory, scoring, and handoff nodes
 - [x] Docker image + `docker compose` for portable demos
 - [x] GitHub Actions CI (`lint` + `build`)
 - [x] Optional seeded runs (`?demo=1`) for empty environments

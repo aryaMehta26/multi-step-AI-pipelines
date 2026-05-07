@@ -17,10 +17,15 @@ const def = pipelineDefinition as PipeDefinition;
 
 function providerTone(provider: string): string {
   if (provider.includes("chat")) return "from-sky-500/25 to-sky-600/10 border-sky-400/35";
+  if (provider.includes("tool_github")) return "from-slate-500/25 to-zinc-600/10 border-slate-300/35";
+  if (provider.includes("tool_docker")) return "from-cyan-500/25 to-blue-600/10 border-cyan-300/35";
+  if (provider.includes("database")) return "from-lime-500/25 to-green-600/10 border-lime-300/35";
   if (provider.includes("agent")) return "from-violet-500/25 to-fuchsia-600/10 border-violet-400/40";
   if (provider.includes("llm")) return "from-amber-500/25 to-orange-600/10 border-amber-400/35";
   if (provider.includes("memory")) return "from-emerald-500/25 to-teal-600/10 border-emerald-400/35";
+  if (provider.includes("score")) return "from-indigo-500/25 to-blue-600/10 border-indigo-300/35";
   if (provider.includes("response")) return "from-rose-500/25 to-pink-600/10 border-rose-400/35";
+  if (provider.includes("notify")) return "from-purple-500/25 to-violet-600/10 border-purple-300/35";
   return "from-white/10 to-white/5 border-white/15";
 }
 
@@ -44,10 +49,13 @@ export function PipelineCanvas() {
       <div className="border-b border-white/10 px-4 py-3 sm:px-5">
         <div className="flex flex-wrap items-center justify-between gap-2">
           <div>
-            <div className="text-sm font-semibold text-white">Pipeline canvas</div>
+            <div className="text-sm font-semibold text-white">
+              AI release-readiness pipeline canvas
+            </div>
             <p className="text-xs text-white/50">
-              Same graph as <code className="rounded bg-white/10 px-1">pipelines/goal-planning-agent.pipe</code>{" "}
-              — layout matches the RocketRide VS Code canvas (positions + edges).
+              12-node backend graph from{" "}
+              <code className="rounded bg-white/10 px-1">pipelines/goal-planning-agent.pipe</code>{" "}
+              with agents, GitHub/Docker tools, docs database, memory, scoring, and handoff output.
             </p>
           </div>
         </div>

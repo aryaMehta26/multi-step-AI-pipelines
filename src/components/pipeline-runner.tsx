@@ -33,7 +33,7 @@ async function fetchRunRows(includeDemo: boolean): Promise<RunRow[]> {
 
 export function PipelineRunner() {
   const [goal, setGoal] = useState(
-    "Ship a RocketRide-aligned demo: Next.js UI that runs a multi-step pipeline and shows traces.",
+    "Prepare a release-readiness review for a Next.js AI pipeline app: validate GitHub repo quality, Docker deployability, docs context, risk, score, and reviewer handoff.",
   );
   const [includeDemo, setIncludeDemo] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -102,48 +102,48 @@ export function PipelineRunner() {
         suppressHydrationWarning
       >
         <div className="flex flex-col gap-4">
-        <Card className="flex flex-col gap-3">
-          <div className="flex flex-wrap items-center gap-2">
-            <Badge>Built-in orchestrator</Badge>
-            <span className="text-xs text-white/50">
-              Deterministic TS steps — swap for RocketRide HTTP later.
-            </span>
-          </div>
-          <label className="text-sm font-medium text-white/85" htmlFor="goal">
-            Goal / prompt
-          </label>
-          <textarea
-            id="goal"
-            rows={8}
-            value={goal}
-            onChange={(e) => setGoal(e.target.value)}
-            className="w-full resize-y rounded-xl border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40"
-            placeholder="Describe what you want the pipeline to plan…"
-            suppressHydrationWarning
-          />
-          <Button
-            type="button"
-            onClick={() => void runPipeline()}
-            disabled={loading}
-            className="self-start"
-            suppressHydrationWarning
-          >
-            {loading ? (
-              <>
-                <Loader2 className="h-4 w-4 animate-spin" /> Running…
-              </>
-            ) : (
-              <>
-                <PlayCircle className="h-4 w-4" /> Run pipeline
-              </>
-            )}
-          </Button>
-          {error ? (
-            <p className="text-sm text-red-300/90" role="alert">
-              {error}
-            </p>
-          ) : null}
-        </Card>
+          <Card className="flex flex-col gap-3">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge>Full-stack backend pipeline</Badge>
+              <span className="text-xs text-white/50">
+                Deterministic TS adapters for repo, Docker, docs, memory, risk, score, and handoff.
+              </span>
+            </div>
+            <label className="text-sm font-medium text-white/85" htmlFor="goal">
+              Release / product goal
+            </label>
+            <textarea
+              id="goal"
+              rows={8}
+              value={goal}
+              onChange={(e) => setGoal(e.target.value)}
+              className="w-full resize-y rounded-xl border border-white/15 bg-black/40 px-3 py-2 text-sm text-white placeholder:text-white/35 outline-none focus-visible:ring-2 focus-visible:ring-sky-400/40"
+              placeholder="Describe a release, app, or integration you want the multi-node pipeline to assess..."
+              suppressHydrationWarning
+            />
+            <Button
+              type="button"
+              onClick={() => void runPipeline()}
+              disabled={loading}
+              className="self-start"
+              suppressHydrationWarning
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="h-4 w-4 animate-spin" /> Running…
+                </>
+              ) : (
+                <>
+                  <PlayCircle className="h-4 w-4" /> Run release pipeline
+                </>
+              )}
+            </Button>
+            {error ? (
+              <p className="text-sm text-red-300/90" role="alert">
+                {error}
+              </p>
+            ) : null}
+          </Card>
 
         <Card>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
@@ -171,7 +171,7 @@ export function PipelineRunner() {
             </div>
           </div>
           <p className="mb-3 text-xs text-white/45">
-            Seeded rows use fixed goals through the same pipeline code — useful for Docker / GitHub empty instances.
+            Seeded rows use fixed goals through the same multi-node backend pipeline — useful for Docker / GitHub empty instances.
             Click a row marked <Badge className="mx-1 align-middle text-[10px]">seed</Badge> to load full trace + artifact.
           </p>
           {history.length === 0 ? (
@@ -225,7 +225,7 @@ export function PipelineRunner() {
           <div className="mb-3 text-sm font-semibold text-white">Step trace</div>
           {!lastRun ? (
             <p className="text-sm text-white/55">
-              Output appears here after you run — mirrors how RocketRide surfaces node-by-node work.
+              Output appears here after you run — each row maps to a node in the release-readiness canvas.
             </p>
           ) : (
             <ol className="space-y-3">
@@ -251,7 +251,7 @@ export function PipelineRunner() {
 
         <Card>
           <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
-            <span className="text-sm font-semibold text-white">Artifact (markdown)</span>
+            <span className="text-sm font-semibold text-white">Release report (markdown)</span>
             {lastRun ? (
               <span className="text-xs text-white/45">
                 Run {lastRun.id.slice(0, 8)}… · {lastRun.totalMs} ms total
@@ -259,7 +259,7 @@ export function PipelineRunner() {
             ) : null}
           </div>
           {!lastRun ? (
-            <p className="text-sm text-white/55">Your generated handoff doc lands here.</p>
+            <p className="text-sm text-white/55">Your readiness report and handoff doc land here.</p>
           ) : (
             <pre className="max-h-[28rem] overflow-auto whitespace-pre-wrap break-words rounded-lg border border-white/10 bg-black/45 p-3 font-mono text-xs leading-relaxed text-slate-100">
               {lastRun.artifact}

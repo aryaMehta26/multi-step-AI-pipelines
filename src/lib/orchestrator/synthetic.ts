@@ -3,9 +3,9 @@ import { runGoalPipeline } from "./runGoalPipeline";
 
 /** Fixed goals — deterministic output from `runGoalPipeline` (real logic, “synthetic” only in sense of seeded inputs). */
 const SYNTHETIC_GOALS = [
-  "Ship a Next.js dashboard that runs multi-step pipelines with traces and markdown artifacts.",
-  "Add Docker plus GitHub Actions CI so recruiters can clone and verify builds in one click.",
-  "Prototype RAG over internal docs using TypeScript APIs and vector embeddings.",
+  "Prepare a release-readiness review for a Next.js AI pipeline app with GitHub, Docker, docs, risk scoring, and handoff.",
+  "Assess whether a Dockerized full-stack demo with CI, screenshots, and OSS PR links is ready for recruiter review.",
+  "Plan a data-backed AI workflow using docs context, memory, GitHub repo signals, and a markdown launch report.",
 ] as const;
 
 let cached: PipelineRunResponse[] | null = null;
